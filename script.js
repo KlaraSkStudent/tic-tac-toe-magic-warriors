@@ -27,7 +27,7 @@ window.addEventListener("load", () => {
 function initGlobalObject() {
   //Datastruktur för vilka platser som är lediga respektive har brickor
   //Genom at fylla i här med antingen X eler O kan ni testa era rättningsfunktioner
-  oGameData.gameField = ["", "", "", "", "", "", "", "", ""];
+  oGameData.gameField = ["X", "X", "X", "", "", "", "", "", ""];
 
   /* Testdata för att testa rättningslösning */
   //oGameData.gameField = ['X', 'X', 'X', '', '', '', '', '', ''];
@@ -81,11 +81,29 @@ function initGlobalObject() {
 function checkForGameOver() {}
 
 // Säg till om ni vill få pseudokod för denna funktion
+// Skapa en array innehållande alla vinnande kombinationer. Varje vinnande kombiation är själv en array enligt följande [1, 2, 3] där siffrorna representerar en plats i gameField.
+// Skapa en flagga (boolean) för isWinner och sätt den till false.
+// Loopa igenom varje vinnande kombination
+// Skapa variablerna a, b, c och tilldela dem värdena i gameField för din nuvarande vinnande kombination.
+// Titta sedan om a, b, eller c alla är lika med playerIn, i så fall har vi en vinnare, annars inte.
 // Viktigt att funktionen returnerar true eller false baserat på om den inskickade spelaren är winner eller ej
-function checkWinner(playerIn) {}
 
+function checkWinner(playerIn) {
+  let isWinner = false;
+  let winningCombinations = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+  ];
+}
+//så länge det är färre än 3 drag för någon av spelarna händer ingenting.
+//när någon av spelarna har nått 3 drag kontrolleras spelplanen mot en lista av kolumner, rader & diagonaler
+//
 //Kontrollera om alla platser i oGameData.GameField är fyllda. Om sant returnera true, annars false.
-function checkForDraw() {}
+function checkForDraw() {
+  console.log(oGameData.gameField);
+}
+checkForDraw();
 
 // Nedanstående funktioner väntar vi med!
 
