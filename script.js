@@ -6,6 +6,9 @@
  */
 let oGameData = {};
 
+// Här skapar vi funktionen som Jesper visade under lektionen, som kan användas för att skriva ut saker till konsolen.
+const log = (msg) => console.log(msg);
+
 window.addEventListener("load", () => {
   initGlobalObject();
   if (checkForGameOver() === 1) {
@@ -78,7 +81,11 @@ function initGlobalObject() {
  * returnerar 3 om det är oavgjort.
  * Funktionen tar inte emot några värden.
  */
-function checkForGameOver() {}
+function checkForGameOver() {
+  log("Om det här syns har checkForGameOver() startat");
+
+  checkWinner();
+}
 
 // Säg till om ni vill få pseudokod för denna funktion
 // Skapa en array innehållande alla vinnande kombinationer. Varje vinnande kombiation är själv en array enligt följande [1, 2, 3] där siffrorna representerar en plats i gameField.
@@ -89,21 +96,41 @@ function checkForGameOver() {}
 // Viktigt att funktionen returnerar true eller false baserat på om den inskickade spelaren är winner eller ej
 
 function checkWinner(playerIn) {
+  log("Om det här syns har checkWinner() startat");
+
+  checkForDraw();
+
   let isWinner = false;
   let winningCombinations = [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9],
+    // Om alla de här är X - gör något
+    // Om alla de här är O - gör något
+    //Vinnande vågräta rader
+    // [1, 2, 3],
+    // [4, 5, 6],
+    // [7, 8, 9],
+    //Vinnande lodräta rader
+    // [1,4,7]
+    // [2,5,8]
+    // [3,6,9]
+    //Vinnande diagonala rader
+    // [1,5,9]
+    // [3,5,7]
   ];
 }
 //så länge det är färre än 3 drag för någon av spelarna händer ingenting.
+//Fundering från Klara: enligt det som kommer ut i konsolen kollar vi just nu om det finns en vinnare efter varje runda, vilket borde vara mer rätt än det som står på raden ovan...? Alltså att man hela tiden kollar efter varje omgång och när någon av spelarna har 3 i rad kommer en vinnare utses.
 //när någon av spelarna har nått 3 drag kontrolleras spelplanen mot en lista av kolumner, rader & diagonaler
 //
 //Kontrollera om alla platser i oGameData.GameField är fyllda. Om sant returnera true, annars false.
+
 function checkForDraw() {
-  console.log(oGameData.gameField);
+  log("Om det här syns har checkForDraw() startat");
+
+  //Här började Jacob förklara att vi behövde loopa igenom arrayen ifall vi ville skriva ut innehållet. Vi hann inte riktigt prata klart innan vi började prata om code review etc.
+  for (let i = 0; i < oGameData.length; i++) {
+    console.log(oGameData.gameField[i]);
+  }
 }
-checkForDraw();
 
 // Nedanstående funktioner väntar vi med!
 
