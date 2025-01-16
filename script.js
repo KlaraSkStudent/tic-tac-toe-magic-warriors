@@ -31,14 +31,14 @@ window.addEventListener("load", () => {
 function initGlobalObject() {
   //Datastruktur för vilka platser som är lediga respektive har brickor
   //Genom at fylla i här med antingen X eler O kan ni testa era rättningsfunktioner
-  oGameData.gameField = ['O', '', '', '', '', '', '', '', ''];
+  oGameData.gameField = ["", "", "", "", "", "", "", "", ""];
 
   /* Testdata för att testa rättningslösning */
   //oGameData.gameField = ['X', 'X', 'X', '', '', '', '', '', ''];
   //oGameData.gameField = ['X', '', '', 'X', '', '', 'X', '', ''];
   //oGameData.gameField = ['X', '', '', '', 'X', '', '', '', 'X'];
   //oGameData.gameField = ['', '', 'X', '', 'X', '', 'X', '', ''];
-  //oGameData.gameField = ['X', 'O', 'X', '0', 'X', 'O', 'O', 'X', 'O'];
+  oGameData.gameField = ["X", "O", "X", "0", "X", "O", "O", "X", "O"];
 
   //Indikerar tecknet som skall användas för spelare ett.
   oGameData.playerOne = "X";
@@ -83,32 +83,26 @@ function initGlobalObject() {
  * Funktionen tar inte emot några värden.
  */
 function checkForGameOver() {
-  log("Om det här syns har checkForGameOver() startat");
+  // log("Om det här syns har checkForGameOver() startat");
 
   // Den här funktionen ska returnera 1, 2 eller 3
   // Anropar checkwinner med argumentet playerOne, om vinnare returnera 1
   // Anropar checkwinner med argumentet playerTwo, om vinnare returnera 2
   // Vid ingen vinnare anropas checkForDraw och vid true returnera 3
   // Annars returneras 0 och spelet fortsätter
-   
-  
-  let result;
-   
-  if(checkWinner(oGameData.playerOne)== true){
-    result = 1
-    log(result)
-  }else if(checkWinner(oGameData.playerTwo) == true){
-    result = 2
-    log(result)}
-  else if (checkForDraw() == true) {
-    result = 3
-    log(result)}
-  else {
-    result= 0    
-    log(result)
-  }
-  return result
 
+  // let result;
+
+  if (checkWinner(oGameData.playerOne) == true) {
+    return 1;
+  } else if (checkWinner(oGameData.playerTwo) == true) {
+    return 2;
+  } else if (checkForDraw() == true) {
+    return 3;
+  } else {
+    // result = 0;
+    return 0;
+  }
 }
 
 // Skapa en array innehållande alla vinnande kombinationer. Varje vinnande kombiation är själv en array enligt följande [1, 2, 3] där siffrorna representerar en plats i gameField. CHECK
@@ -118,9 +112,8 @@ function checkForGameOver() {
 // Titta sedan om a, b, eller c alla är lika med playerIn, i så fall har vi en vinnare, annars inte.
 // Viktigt att funktionen returnerar true eller false baserat på om den inskickade spelaren är winner eller ej
 
-
 function checkWinner(playerIn) {
-  log("Om det här syns har checkWinner() startat");
+  // log("Om det här syns har checkWinner() startat");
 
   let isWinner = false;
 
@@ -139,47 +132,45 @@ function checkWinner(playerIn) {
   ];
 
   //Loopa igenom varje vinnande kombination. Här går vi in i varje array(vinstkombo) i arrayen winningCombinations
+
   for (const combination of winningCombinations) {
-    
     // abc är parametrar som i varje loop byts ut mot en array i arrayen winningCombinations
     //a b c byts ut mot varje array (t ex [0,1,2]) i winningCombinations
     const [a, b, c] = combination;
-    log(`Vinstchans: ${combination}`);
-
+    // log(`Vinstchans: ${combination}`);
     // Om kontrollraden matchar med playerIn ändras variabeln isWinner till true
     // ogameData.gameField[a]=0, [b]=1, [c]=2 om vi utgår från exemplet ovan, här kontrolleras
     // player inputs och rättas mot winningCombinations, vid 3 på rad blir isWinner=true
     // om vi inte hittar 3 på rad så loopar vi igenom nästa array i winningCombinations tills
     // alla möjliga winningCombinations är testade
     // Om ingen vinnande kombination hittas returneras isWinner = false
-    if (oGameData.gameField[a] === playerIn &&
-            oGameData.gameField[b] === playerIn &&
-           oGameData.gameField[c] === playerIn) {
-          
-       isWinner = true;
-      
+    if (
+      oGameData.gameField[a] === playerIn &&
+      oGameData.gameField[b] === playerIn &&
+      oGameData.gameField[c] === playerIn
+    ) {
+      isWinner = true;
+      return isWinner;
+      // return true;
     }
-   
   }
-  return isWinner
+  // return false;
+
+  return isWinner;
 }
 
-
-
-
 function checkForDraw() {
-  log("Om det här syns har checkForDraw() startat");
+  // log("Om det här syns har checkForDraw() startat");
 
   //some() kontrollerar om det finns någon tom sträng(ledig plats) i vår testrad.
   //Den här funktionen anropas i checkForGameOver(). Om checkForGameOver får ett truevärde från den här funktionen blir den till en 3:a som i sin tur skickas vidare till checkForGameover
-  if (oGameData.gameField.some(cell => cell === "")) {
+  if (oGameData.gameField.some((cell) => cell === "")) {
     return false;
   }
 
   // Om det inte finns vinnare och inga tomma celler är det oavgjort
   return true;
 }
-
 
 // Nedanstående funktioner väntar vi med!
 
