@@ -4,7 +4,9 @@
  * Globalt objekt som innehåller de attribut som ni skall använda.
  * Initieras genom anrop till funktionern initGlobalObject().
  */
-let oGameData = {};
+let oGameData = {
+};
+let tdElementRefs = document.querySelectorAll('td');
 
 // Här skapar vi funktionen som Jesper visade under lektionen, som kan användas för att skriva ut saker till konsolen.
 const log = (msg) => console.log(msg);
@@ -12,16 +14,19 @@ const log = (msg) => console.log(msg);
 // från checkforgameover
 window.addEventListener("load", () => {
   initGlobalObject();
-  if (checkForGameOver() === 1) {
-    console.log("Spelare 1 vann");
-  } else if (checkForGameOver() === 2) {
-    console.log("Spelare 2 vann");
-  } else if (checkForGameOver() === 3) {
-    console.log("Oavgjort");
-  } else {
-    console.log("Spelet fortsätter");
-  }
+  prepGame();
+  // if (checkForGameOver() === 1) {
+  //   console.log("Spelare 1 vann");
+  // } else if (checkForGameOver() === 2) {
+  //   console.log("Spelare 2 vann");
+  // } else if (checkForGameOver() === 3) {
+  //   console.log("Oavgjort");
+  // } else {
+  //   console.log("Spelet fortsätter");
+  // }
 });
+
+
 
 /**
  * Initerar det globala objektet med de attribut som ni skall använda er av.
@@ -31,14 +36,14 @@ window.addEventListener("load", () => {
 function initGlobalObject() {
   //Datastruktur för vilka platser som är lediga respektive har brickor
   //Genom at fylla i här med antingen X eler O kan ni testa era rättningsfunktioner
-  oGameData.gameField = ["", "", "", "", "", "", "", "", ""];
+  // oGameData.gameField = ["", "", "", "", "", "", "", "", ""];
 
   /* Testdata för att testa rättningslösning */
   //oGameData.gameField = ['X', 'X', 'X', '', '', '', '', '', ''];
   //oGameData.gameField = ['X', '', '', 'X', '', '', 'X', '', ''];
   //oGameData.gameField = ['X', '', '', '', 'X', '', '', '', 'X'];
   //oGameData.gameField = ['', '', 'X', '', 'X', '', 'X', '', ''];
-  oGameData.gameField = ["X", "O", "X", "0", "X", "O", "O", "X", "O"];
+  // oGameData.gameField = ["X", "O", "X", "0", "X", "O", "O", "X", "O"];
 
   //Indikerar tecknet som skall användas för spelare ett.
   oGameData.playerOne = "X";
@@ -173,14 +178,144 @@ function checkForDraw() {
 }
 
 // Nedanstående funktioner väntar vi med!
+let gameAreaRef = document.querySelector('#gameArea');
 
-function prepGame() {}
+
+function prepGame() {
+  let gameAreaRef = document.querySelector('#gameArea');
+
+  gameAreaRef.classList.add('d-none');
+
+  let newGameBtnRef = document.querySelector('#newGame');
+  newGameBtnRef.addEventListener('click', initiateGame);
+}
+
+
 
 function validateForm() {}
 
-function initiateGame() {}
+function initiateGame() {
+  console.log("intitiateGame()");
 
-function executeMove(event) {}
+  let theFormRef = document.querySelector(`#theForm`)
+theFormRef.classList.add(`d-none`)  ;
+
+let gameAreaRef = document.querySelector('#gameArea');
+  gameAreaRef.classList.remove('d-none');
+
+  let errorMsgRef = document.querySelector(`#errorMsg`)
+
+  errorMsgRef.textContent = '';
+
+
+  //tar input från användaren och lagrar användarnamn + färg i en variabel
+  let nick1Ref =document.querySelector(`#nick1`)
+  let nick1RefValue = nick1Ref.value;
+
+  let color1Ref = document.querySelector(`#color1`)
+  let color1RefValue = color1Ref.value;
+  
+  
+oGameData.nickNamePlayerOne = nick1RefValue;
+
+
+
+oGameData.colorPlayerOne = color1RefValue;
+
+let nick2Ref =document.querySelector(`#nick2`)
+let nick2RefValue = nick2Ref.value;
+
+
+let color2Ref = document.querySelector(`#color2`)
+let color2RefValue = color2Ref.value;
+
+
+oGameData.nickNamePlayerTwo = nick2RefValue;
+console.log(oGameData);
+
+
+oGameData.colorPlayerTwo = color2RefValue;
+
+
+
+console.log(tdElementRefs);
+for(let tdElementRef of tdElementRefs) {
+  tdElementRef.textContent = '';
+  tdElementRef.style.backgroundColor = '#ffffff';
+}
+
+let playerChar;
+let playerName;
+
+
+let randomNumber = Math.random();
+
+
+
+if (randomNumber < 0.5) {
+  playerChar = oGameData.playerOne;
+  playerName = oGameData.nickNamePlayerOne;
+  oGameData.currentPlayer = oGameData.playerOne;
+ 
+  
+} else {
+  playerChar = oGameData.playerTwo;
+  playerName = oGameData.nickNamePlayerTwo;
+  oGameData.currentPlayer = oGameData.playerTwo;
+}
+
+console.log(playerChar);
+console.log(`Det slumpade numret blev ${randomNumber} det betyder att ${playerName} börjar`);
+
+let currentPlayerRef = document.querySelector('.jumbotron>h1');
+currentPlayerRef.textContent = `Aktuell spelare är ${playerName}`;
+
+gameAreaRef.addEventListener(`click`, executeMove)
+
+}
+
+
+function executeMove(event) {
+// console.log(event.target.tagName);
+// console.log(event.currentTarget);
+// let test = event.currentTarget;
+// let testId=test.dataset.dataID;
+// console.log(test);
+
+
+
+// if( )
+
+// (...tdElementRefs).addEventListener(`click`,(event) =>{console.log(event.currentTarget)})
+
+// for(let tdElementRef of tdElementRefs){
+//   tdElementRef.addEventListener(`click`, (event) =>{console.log(event.currentTarget);
+// })
+// }
+
+
+
+tdElementRefs.forEach(tdElementRef => {tdElementRef.addEventListener(`click`, (event) =>{
+ let gameAreaStatus = event.currentTarget;
+ console.log(gameAreaStatus);
+ 
+ 
+  
+ })
+ });
+
+}
+
+
+/*let articleRefs = document.querySelectorAll('main>article');
+for(let articleRef of articleRefs) {
+    articleRef.addEventListener('click', (event) => {
+       
+        console.log(event.currentTarget);
+        console.log(`Hi Im article ${event.currentTarget.querySelector('h3').textContent}`);*/
+
+  
+
 
 function changePlayer() {}
 
