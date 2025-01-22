@@ -36,7 +36,7 @@ window.addEventListener("load", () => {
 function initGlobalObject() {
   //Datastruktur för vilka platser som är lediga respektive har brickor
   //Genom at fylla i här med antingen X eler O kan ni testa era rättningsfunktioner
-  // oGameData.gameField = ["", "", "", "", "", "", "", "", ""];
+  oGameData.gameField = ["", "", "", "", "", "", "", "", ""];
 
   /* Testdata för att testa rättningslösning */
   //oGameData.gameField = ['X', 'X', 'X', '', '', '', '', '', ''];
@@ -274,51 +274,59 @@ gameAreaRef.addEventListener(`click`, executeMove)
 
 }
 
-
-function executeMove(event) {
-// console.log(event.target.tagName);
-// console.log(event.currentTarget);
-// let test = event.currentTarget;
-// let testId=test.dataset.dataID;
-// console.log(test);
-
-
-
-// if( )
-
-// (...tdElementRefs).addEventListener(`click`,(event) =>{console.log(event.currentTarget)})
-
-// for(let tdElementRef of tdElementRefs){
-//   tdElementRef.addEventListener(`click`, (event) =>{console.log(event.currentTarget);
-// })
-// }
-
-
-
-tdElementRefs.forEach(tdElementRef => {tdElementRef.addEventListener(`click`, (event) =>{
- let gameAreaStatus = event.currentTarget;
- console.log(gameAreaStatus);
- 
- 
-  
- })
- });
-
+function displayId(){
+  for (let ref of tdElementRefs){
+    ref.addEventListener(`click`, executeMove );
+  }
 }
 
 
-/*let articleRefs = document.querySelectorAll('main>article');
-for(let articleRef of articleRefs) {
-    articleRef.addEventListener('click', (event) => {
-       
-        console.log(event.currentTarget);
-        console.log(`Hi Im article ${event.currentTarget.querySelector('h3').textContent}`);*/
 
+
+function executeMove(event) {
+  log('executeMove()');
+  log(event.target);
+  log(event)
   
+    if(event.target.tagName === 'TD' && event.target.textContent === '') {
+      let position = event.target.getAttribute('data-id');
+      console.log(position);
+      
+     oGameData.gameField[position] = oGameData.currentPlayer
+     event.target.textContent = oGameData.currentPlayer;
+
+     if(oGameData.currentPlayer === 'X') {
+      event.target.style.backgroundColor = oGameData.colorPlayerOne
+   } else {
+    event.target.style.backgroundColor = oGameData.colorPlayerTwo
+   }
+   changePlayer();
+    }
+    
+    
 
 
-function changePlayer() {}
+
+function changePlayer() {
+  if(oGameData.currentPlayer === 'X') {
+    oGameData.currentPlayer = 'O'
+    document.querySelector('.jumbotron>h1').textContent = `Aktuell spelare är ${oGameData.nickNamePlayerTwo}`
+
+
+  } else {
+    oGameData.currentPlayer = 'X'
+    document.querySelector('.jumbotron>h1').textContent = `Aktuell spelare är ${oGameData.nickNamePlayerOne}`
+  }
+
+  checkForGameOver();
+  gameOver(checkForGameOver());
+
+
+}
 
 function timer() {}
 
-function gameOver(result) {}
+function gameOver(result) {
+  log(result)
+}
+}
