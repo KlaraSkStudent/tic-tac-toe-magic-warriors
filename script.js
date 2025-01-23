@@ -34,6 +34,7 @@ window.addEventListener("load", () => {
  * Funktionen returnerar inte något värde.
  */
 function initGlobalObject() {
+  log('initGlobalObject()');
   //Datastruktur för vilka platser som är lediga respektive har brickor
   //Genom at fylla i här med antingen X eler O kan ni testa era rättningsfunktioner
   oGameData.gameField = ["", "", "", "", "", "", "", "", ""];
@@ -88,6 +89,7 @@ function initGlobalObject() {
  * Funktionen tar inte emot några värden.
  */
 function checkForGameOver() {
+  log('checkForGameOver()');
   // log("Om det här syns har checkForGameOver() startat");
 
   // Den här funktionen ska returnera 1, 2 eller 3
@@ -118,6 +120,7 @@ function checkForGameOver() {
 // Viktigt att funktionen returnerar true eller false baserat på om den inskickade spelaren är winner eller ej
 
 function checkWinner(playerIn) {
+  log('checkForGameWinner()');
   // log("Om det här syns har checkWinner() startat");
 
   let isWinner = false;
@@ -165,6 +168,7 @@ function checkWinner(playerIn) {
 }
 
 function checkForDraw() {
+  log('checkForDraw()');
   // log("Om det här syns har checkForDraw() startat");
 
   //some() kontrollerar om det finns någon tom sträng(ledig plats) i vår testrad.
@@ -182,6 +186,7 @@ let gameAreaRef = document.querySelector('#gameArea');
 
 
 function prepGame() {
+  log('prepGame()');
   let gameAreaRef = document.querySelector('#gameArea');
 
   gameAreaRef.classList.add('d-none');
@@ -195,7 +200,7 @@ function prepGame() {
 function validateForm() {}
 
 function initiateGame() {
-  console.log("intitiateGame()");
+  log('initiateGame()')
 
   let theFormRef = document.querySelector(`#theForm`)
 theFormRef.classList.add(`d-none`)  ;
@@ -231,14 +236,14 @@ let color2RefValue = color2Ref.value;
 
 
 oGameData.nickNamePlayerTwo = nick2RefValue;
-console.log(oGameData);
+
 
 
 oGameData.colorPlayerTwo = color2RefValue;
 
 
 
-console.log(tdElementRefs);
+
 for(let tdElementRef of tdElementRefs) {
   tdElementRef.textContent = '';
   tdElementRef.style.backgroundColor = '#ffffff';
@@ -264,8 +269,6 @@ if (randomNumber < 0.5) {
   oGameData.currentPlayer = oGameData.playerTwo;
 }
 
-console.log(playerChar);
-console.log(`Det slumpade numret blev ${randomNumber} det betyder att ${playerName} börjar`);
 
 let currentPlayerRef = document.querySelector('.jumbotron>h1');
 currentPlayerRef.textContent = `Aktuell spelare är ${playerName}`;
@@ -274,23 +277,14 @@ gameAreaRef.addEventListener(`click`, executeMove)
 
 }
 
-function displayId(){
-  for (let ref of tdElementRefs){
-    ref.addEventListener(`click`, executeMove );
-  }
-}
-
-
 
 
 function executeMove(event) {
-  log('executeMove()');
-  log(event.target);
-  log(event)
+  log('executeMove()')
   
-    if(event.target.tagName === 'TD' && event.target.textContent === '') {
+  if(event.target.tagName === 'TD' && event.target.textContent === '') {
       let position = event.target.getAttribute('data-id');
-      console.log(position);
+     
       
      oGameData.gameField[position] = oGameData.currentPlayer
      event.target.textContent = oGameData.currentPlayer;
@@ -308,6 +302,7 @@ function executeMove(event) {
 
 
 function changePlayer() {
+  log('changePlayer()')
   if(oGameData.currentPlayer === 'X') {
     oGameData.currentPlayer = 'O'
     document.querySelector('.jumbotron>h1').textContent = `Aktuell spelare är ${oGameData.nickNamePlayerTwo}`
@@ -318,15 +313,40 @@ function changePlayer() {
     document.querySelector('.jumbotron>h1').textContent = `Aktuell spelare är ${oGameData.nickNamePlayerOne}`
   }
 
-  checkForGameOver();
-  gameOver(checkForGameOver());
+  let isGameOver = checkForGameOver()
+  
+  if(isGameOver === 1) {
+    gameOver(isGameOver)
+  } else if (isGameOver === 2) {
+    gameOver(isGameOver)
+  } else if (isGameOver === 3) {
+    gameOver(isGameOver)
+  } else {
 
-
+  }
 }
+
+
 
 function timer() {}
 
-function gameOver(result) {
-  log(result)
+function gameOver() {
+  document.querySelector('#gameArea').removeEventListener('click', executeMove)
+  
+  document.querySelector('#theForm').classList.remove('.d-none')
+  document.querySelector('#gameArea').classList.add('d-none')
+
+  let gameWinner = checkForGameOver()
+  if (gameWinner === 1) {
+    document.querySelector('.jumbotron>h1').textContent = `Vinnare är ${oGameData.nickNamePlayerOne}! Vill du spela igen?`
+  } else if (gameWinner === 2) {
+    document.querySelector('.jumbotron>h1').textContent = `Vinnare är ${oGameData.nickNamePlayerTwo}! Vill du spela igen?`
+  } else {
+    document.querySelector('.jumbotron>h1').textContent = `Oavgjort! Vill du spel?`
+  }
+   
+  initGlobalObject();
+  
 }
+
 }
