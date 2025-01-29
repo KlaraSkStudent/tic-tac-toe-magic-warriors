@@ -296,6 +296,7 @@ function initiateGame() {
   currentPlayerRef.textContent = `Aktuell spelare är ${playerName}`;
 
   gameAreaRef.addEventListener(`click`, executeMove);
+  timer();
 }
 
 function executeMove(event) {
@@ -315,57 +316,52 @@ function executeMove(event) {
     changePlayer();
   }
 
-  function changePlayer() {
-    timer(changePlayer);
+}
 
-    log("changePlayer()");
-    if (oGameData.currentPlayer === "X") {
-      oGameData.currentPlayer = "O";
-      document.querySelector(
-        ".jumbotron>h1"
-      ).textContent = `Aktuell spelare är ${oGameData.nickNamePlayerTwo}`;
-    } else {
-      oGameData.currentPlayer = "X";
-      document.querySelector(
-        ".jumbotron>h1"
-      ).textContent = `Aktuell spelare är ${oGameData.nickNamePlayerOne}`;
-    }
-
-    let isGameOver = checkForGameOver();
-
-    if (isGameOver === 1) {
-      gameOver(isGameOver);
-    } else if (isGameOver === 2) {
-      gameOver(isGameOver);
-    } else if (isGameOver === 3) {
-      gameOver(isGameOver);
-    } else {
-    }
+function changePlayer() {
+  timer();
+  log("changePlayer()");
+  if (oGameData.currentPlayer === "X") {
+    oGameData.currentPlayer = "O";
+    document.querySelector(
+      ".jumbotron>h1"
+    ).textContent = `Aktuell spelare är ${oGameData.nickNamePlayerTwo}`;
+  } else {
+    oGameData.currentPlayer = "X";
+    document.querySelector(
+      ".jumbotron>h1"
+    ).textContent = `Aktuell spelare är ${oGameData.nickNamePlayerOne}`;
   }
 
-  function timer() {
-    let countDown = oGameData.seconds;
-    // oGameData.timerEnabled = true;
+  let isGameOver = checkForGameOver();
 
-    let timer = setInterval(function () {
+  if (isGameOver === 1) {
+    gameOver(isGameOver);
+  } else if (isGameOver === 2) {
+    gameOver(isGameOver);
+  } else if (isGameOver === 3) {
+    gameOver(isGameOver);
+  } else {
+  }
+}
+
+
+function timer() {
+  clearTimeout(oGameData.timerId);
+ oGameData.timerId = setTimeout(() => {
+  let countDown = oGameData.seconds;
+  
+  changePlayer();
+    
+   countDown = setInterval(function () {
       countDown--;
       oGameData.timeRef.textContent = countDown;
-
+  
       console.log(countDown);
-
-      if (countDown === 0) {
-        clearInterval(timer);
-        // oGameData.timerEnabled = false;
-        // alert(`Tiden är ute`);
-        changePlayer();
-      }
-      // if (!checkForGameOver === 0) {
-      // }
     }, 1000);
-  }
+    
+  }, 5000);
 
-  // setTimeout(changePlayer, 10000);
-  // console.log(oGameData.seconds);
 }
 
 function gameOver() {
